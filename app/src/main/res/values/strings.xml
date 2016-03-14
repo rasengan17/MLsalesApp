@@ -7,17 +7,21 @@
 
     <string name="nav_item_home">Home</string>
     <string name="nav_item_example">Example</string>
-    <string name="nav_item_notifications">Messages</string>
+    <string name="nav_item_points_calculator">Calculadora de Puntos</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_example</item>
-        <item>@string/nav_item_notifications</item>
+        <item>@string/nav_item_points_calculator</item>
     </string-array>
 
     <string name="title_messages">Messages</string>
     <string name="title_friends">Friends</string>
     <string name="title_home">Home</string>
     <string name="title_example">Example</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_points_calculator">Calculadora De Puntos</string>
 </resources>

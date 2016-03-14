@@ -17,6 +17,7 @@ import android.widget.Toast;
 import activity.ExampleFragment;
 import activity.FragmentDrawer;
 import activity.HomeFragment;
+import activity.PointsCalculatorFragment;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
     private Toolbar mToolbar;
@@ -109,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_example);
                 break;
             case 2:
-
+                fragment = new PointsCalculatorFragment();
+                title = getString(R.string.title_points_calculator);
                 break;
             default:
                 break;
