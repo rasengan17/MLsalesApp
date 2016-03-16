@@ -1,9 +1,12 @@
 package activity;
 
-import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +62,13 @@ public class PointsCalculatorFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        showDialog();
+    }
+
+    private void showDialog() {
+        DialogFragment newFragment = PointsCalculatorInitialPointsDialog.newInstance();
+        newFragment.show(getFragmentManager(), "dialog");
     }
 
     @Override
