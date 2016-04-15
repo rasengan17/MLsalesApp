@@ -1,4 +1,4 @@
-package model;
+package com.mpro.heroes.mlsalesapp.model;
 
 /**
  * Created by cmacias on 3/12/16.

@@ -1,17 +1,18 @@
-package activity;
+package com.mpro.heroes.mlsalesapp.activity;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.mpro.heroes.mlsalesapp.R;
+import com.mpro.heroes.mlsalesapp.config.AppConstants;
+import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +68,23 @@ public class PointsCalculatorFragment extends Fragment {
     }
 
     private void showDialog() {
-        DialogFragment newFragment = PointsCalculatorInitialPointsDialog.newInstance();
+        PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener listener = new PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener() {
+            EditText currentPointsEditText;
+            @Override
+            public void onDialogPositiveClick(DialogFragment dialog) {
+                currentPointsEditText = (EditText) dialog.getDialog().findViewById(R.id.current_points);
+                if (currentPointsEditText != null)
+                PreferenceManager.setInt(AppConstants.CURRENT_POINTS, Integer.parseInt(currentPointsEditText.getText().toString()), getContext());
+
+                Log.d("FENIX",Integer.toString(PreferenceManager.getInt(AppConstants.CURRENT_POINTS, 0, getContext())));
+            }
+
+            @Override
+            public void onDialogNegativeClick(DialogFragment dialog) {
+                dialog.getDialog().cancel();
+            }
+        };
+        DialogFragment newFragment = PointsCalculatorInitialPointsDialog.newInstance(listener);
         newFragment.show(getFragmentManager(), "dialog");
     }
 

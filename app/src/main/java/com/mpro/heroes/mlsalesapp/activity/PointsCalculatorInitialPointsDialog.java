@@ -1,7 +1,9 @@
-package activity;
+package com.mpro.heroes.mlsalesapp.activity;
 
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,22 +12,34 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.mpro.heroes.mlsalesapp.R;
+import com.mpro.heroes.mlsalesapp.config.AppConstants;
+import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PointsCalculatorInitialPointsDialog extends DialogFragment {
+    EditText currentPointsEditText;
+    public PointsCalculatorInitialPointsDialogListener mListener;
 
+    public interface PointsCalculatorInitialPointsDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
+    }
 
     public PointsCalculatorInitialPointsDialog() {
         // Required empty public constructor
     }
 
-    public static PointsCalculatorInitialPointsDialog newInstance(){
-        return new PointsCalculatorInitialPointsDialog();
+    public static PointsCalculatorInitialPointsDialog newInstance(PointsCalculatorInitialPointsDialogListener listener) {
+        PointsCalculatorInitialPointsDialog pointsCalculatorInitialPointsDialog = new PointsCalculatorInitialPointsDialog();
+        pointsCalculatorInitialPointsDialog.mListener = listener;
+        return pointsCalculatorInitialPointsDialog;
     }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -42,16 +56,19 @@ public class PointsCalculatorInitialPointsDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
+                        mListener.onDialogPositiveClick(PointsCalculatorInitialPointsDialog.this);
+                        //PreferenceManager.setInt(AppConstants.CURRENT_POINTS, Integer.parseInt(currentPointsEditText.getText().toString()), getContext());
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //LoginDialogFragment.this.getDialog().cancel();
+                        mListener.onDialogNegativeClick(PointsCalculatorInitialPointsDialog.this);
                     }
                 });
+
+
         return builder.create();
     }
-
 
 }

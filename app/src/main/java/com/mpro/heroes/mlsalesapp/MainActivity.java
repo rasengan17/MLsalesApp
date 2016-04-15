@@ -1,8 +1,6 @@
 package com.mpro.heroes.mlsalesapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import activity.ExampleFragment;
-import activity.FragmentDrawer;
-import activity.HomeFragment;
-import activity.PointsCalculatorFragment;
+import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
+import com.mpro.heroes.mlsalesapp.activity.FragmentDrawer;
+import com.mpro.heroes.mlsalesapp.activity.HomeFragment;
+import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorFragment;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
     private Toolbar mToolbar;
