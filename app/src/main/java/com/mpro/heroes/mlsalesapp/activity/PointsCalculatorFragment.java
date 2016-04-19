@@ -22,6 +22,8 @@ import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
  * Use the {@link PointsCalculatorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+@Deprecated
 public class PointsCalculatorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

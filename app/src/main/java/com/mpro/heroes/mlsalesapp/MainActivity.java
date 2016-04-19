@@ -97,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     }*/
 
     private void displayView(int position) {
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
         switch (position) {
             case 0:
                 showFragment(new HomeFragment(), getString(R.string.title_home));
