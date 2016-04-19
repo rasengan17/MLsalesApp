@@ -21,7 +21,7 @@
     <string name="title_home">Home</string>
     <string name="title_example">Example</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_points_calculator">Calculadora De Puntos</string>
     <string name="current_points_dialog_message">Ingrese el total de puntos hasta ahora</string>
@@ -29,4 +29,6 @@
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
     <string name="current_points_hint">Puntos actuales</string>
+    <string name="title_activity_points_calculator">PointsCalculator</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

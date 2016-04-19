@@ -1,5 +1,6 @@
 package com.mpro.heroes.mlsalesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -100,21 +101,21 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                fragment = new HomeFragment();
-                title = getString(R.string.title_home);
+                showFragment(new HomeFragment(), getString(R.string.title_home));
                 break;
             case 1:
-                fragment = new ExampleFragment();
-                title = getString(R.string.title_example);
+                showFragment(new ExampleFragment(), getString(R.string.title_example));
                 break;
             case 2:
-                fragment = new PointsCalculatorFragment();
-                title = getString(R.string.title_points_calculator);
+                Intent intent = new Intent(this, PointsCalculatorActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
         }
+    }
 
+    private void showFragment(Fragment fragment, String title){
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             getSupportActionBar().setTitle(title);
         }
     }
+
     @Override
     public void onDrawerItemSelected(View view, int position) {
         displayView(position);
