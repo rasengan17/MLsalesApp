@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,14 +24,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
+import com.mpro.heroes.mlsalesapp.activity.MyProductRecyclerViewAdapter;
 import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorInitialPointsDialog;
+import com.mpro.heroes.mlsalesapp.activity.ProductFragment;
+import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent;
+import com.mpro.heroes.mlsalesapp.activity.helper.ItemTouchHelperAdapter;
+import com.mpro.heroes.mlsalesapp.activity.helper.SimpleItemTouchHelperCallback;
 import com.mpro.heroes.mlsalesapp.config.AppConstants;
 import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PointsCalculatorActivity extends AppCompatActivity {
+public class PointsCalculatorActivity extends AppCompatActivity implements ProductFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -73,7 +79,7 @@ public class PointsCalculatorActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ExampleFragment(), "ONE");
+        adapter.addFragment(new ProductFragment(), "ONE");
         adapter.addFragment(new ExampleFragment(), "TWO");
         adapter.addFragment(new ExampleFragment(), "THREE");
         mViewPager.setAdapter(adapter);
@@ -120,6 +126,17 @@ public class PointsCalculatorActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(MyProductRecyclerViewAdapter.ViewHolder holder) {
+        System.out.println(holder.mItem.content);
+        System.out.println(holder.mItem.details);
+        System.out.println(holder.mItem.id);
+
+        holder.mIdView.setText("hola");
+
+
     }
 
     /**
@@ -188,5 +205,6 @@ public class PointsCalculatorActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 }
