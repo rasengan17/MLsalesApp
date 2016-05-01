@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,14 +26,21 @@ import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
 import com.mpro.heroes.mlsalesapp.activity.MyProductRecyclerViewAdapter;
 import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorInitialPointsDialog;
 import com.mpro.heroes.mlsalesapp.activity.ProductFragment;
-import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent;
-import com.mpro.heroes.mlsalesapp.activity.helper.ItemTouchHelperAdapter;
-import com.mpro.heroes.mlsalesapp.activity.helper.SimpleItemTouchHelperCallback;
 import com.mpro.heroes.mlsalesapp.config.AppConstants;
+import com.mpro.heroes.mlsalesapp.services.CatalogService;
+import com.mpro.heroes.mlsalesapp.services.response.CatalogResponse;
 import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PointsCalculatorActivity extends AppCompatActivity implements ProductFragment.OnListFragmentInteractionListener {
 
@@ -73,8 +79,43 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
             });
         }
 
+        getCatalogs();
+
         showDialog();
 
+    }
+
+    private void getCatalogs() {
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+// add your other interceptors …
+
+// add logging as last interceptor
+        httpClient.addInterceptor(logging);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://mlm-api-git-betomaru.c9users.io/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+        CatalogService service = retrofit.create(CatalogService.class);
+        Call<List<CatalogResponse>> call = service.getCatalogs();
+
+        call.enqueue(new Callback<List<CatalogResponse>>() {
+            @Override
+            public void onResponse(Call<List<CatalogResponse>> call, Response<List<CatalogResponse>> response) {
+                List<CatalogResponse> catalogResponse = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<CatalogResponse>> call, Throwable t) {
+                Call<List<CatalogResponse>> calll = call;
+            }
+        });
     }
 
     private void setupViewPager() {
@@ -88,13 +129,14 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
     private void showDialog() {
         PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener listener = new PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener() {
             EditText currentPointsEditText;
+
             @Override
             public void onDialogPositiveClick(DialogFragment dialog) {
                 currentPointsEditText = (EditText) dialog.getDialog().findViewById(R.id.current_points);
                 if (currentPointsEditText != null)
-                    PreferenceManager.setInt(AppConstants.CURRENT_POINTS, Integer.parseInt(currentPointsEditText.getText().toString()),getBaseContext());
+                    PreferenceManager.setInt(AppConstants.CURRENT_POINTS, Integer.parseInt(currentPointsEditText.getText().toString()), getBaseContext());
 
-                Log.d("FENIX",Integer.toString(PreferenceManager.getInt(AppConstants.CURRENT_POINTS, 0, getBaseContext())));
+                Log.d("FENIX", Integer.toString(PreferenceManager.getInt(AppConstants.CURRENT_POINTS, 0, getBaseContext())));
             }
 
             @Override

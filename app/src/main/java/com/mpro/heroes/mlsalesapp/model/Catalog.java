@@ -1,10 +1,12 @@
-package com.mpro.heroes.mlsalesapp.services.response;
-
+package com.mpro.heroes.mlsalesapp.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CatalogResponse {
+/**
+ * Created by cmacias on 4/28/16.
+ */
+public class Catalog {
 
     @SerializedName("id")
     @Expose
@@ -17,117 +19,93 @@ public class CatalogResponse {
     private String urlImage;
     @SerializedName("catalog_price")
     @Expose
-    private Double catalogPrice;
+    private Integer catalogPrice;
     @SerializedName("points")
     @Expose
-    private Double points;
+    private Integer points;
     @SerializedName("product_line")
     @Expose
     private String productLine;
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
-     *
-     * @return
-     * The productName
+     * @return The productName
      */
     public String getProductName() {
         return productName;
     }
 
     /**
-     *
-     * @param productName
-     * The product_name
+     * @param productName The product_name
      */
     public void setProductName(String productName) {
         this.productName = productName;
     }
 
     /**
-     *
-     * @return
-     * The urlImage
+     * @return The urlImage
      */
     public String getUrlImage() {
         return urlImage;
     }
 
     /**
-     *
-     * @param urlImage
-     * The url_image
+     * @param urlImage The url_image
      */
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
 
     /**
-     *
-     * @return
-     * The catalogPrice
+     * @return The catalogPrice
      */
-    public Double getCatalogPrice() {
+    public Integer getCatalogPrice() {
         return catalogPrice;
     }
 
     /**
-     *
-     * @param catalogPrice
-     * The catalog_price
+     * @param catalogPrice The catalog_price
      */
-    public void setCatalogPrice(Double catalogPrice) {
+    public void setCatalogPrice(Integer catalogPrice) {
         this.catalogPrice = catalogPrice;
     }
 
     /**
-     *
-     * @return
-     * The points
+     * @return The points
      */
-    public Double getPoints() {
+    public Integer getPoints() {
         return points;
     }
 
     /**
-     *
-     * @param points
-     * The points
+     * @param points The points
      */
-    public void setPoints(Double points) {
+    public void setPoints(Integer points) {
         this.points = points;
     }
 
     /**
-     *
-     * @return
-     * The productLine
+     * @return The productLine
      */
     public String getProductLine() {
         return productLine;
     }
 
     /**
-     *
-     * @param productLine
-     * The product_line
+     * @param productLine The product_line
      */
     public void setProductLine(String productLine) {
         this.productLine = productLine;

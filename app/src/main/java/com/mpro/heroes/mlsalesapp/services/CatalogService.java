@@ -2,7 +2,10 @@ package com.mpro.heroes.mlsalesapp.services;
 
 import com.mpro.heroes.mlsalesapp.services.response.CatalogResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 
 /**
@@ -10,8 +13,8 @@ import retrofit2.http.GET;
  */
 public interface CatalogService {
 
-    String CATALOGS_ENDPOINT = "https://mlm-api-git-betomaru.c9users.io/products";
+    String CATALOGS_ENDPOINT = "products";
 
     @GET(CATALOGS_ENDPOINT)
-    Call<CatalogResponse> getCatalogs();
+    Call<List<CatalogResponse>> getCatalogs();
 }
