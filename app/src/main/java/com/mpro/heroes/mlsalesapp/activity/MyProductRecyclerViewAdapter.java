@@ -10,6 +10,7 @@ import com.mpro.heroes.mlsalesapp.R;
 import com.mpro.heroes.mlsalesapp.activity.ProductFragment.OnListFragmentInteractionListener;
 import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent.DummyItem;
 import com.mpro.heroes.mlsalesapp.activity.helper.ItemTouchHelperAdapter;
+import com.mpro.heroes.mlsalesapp.model.CatalogItem;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +22,11 @@ import java.util.List;
  */
 public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProductRecyclerViewAdapter.ViewHolder> implements ItemTouchHelperAdapter{
 
-    private final List<DummyItem> mValues;
+    private final List<CatalogItem> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private int mItemCounter;
 
-    public MyProductRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyProductRecyclerViewAdapter(List<CatalogItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -39,8 +41,8 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mProductName.setText(mValues.get(position).getProductName());
+        holder.mQuantity.setText(Integer.toString(mValues.get(position).getQuantity()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,20 +84,21 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mProductName;
+        public final TextView mQuantity;
+        public CatalogItem mItem;
+        public int mIdItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mProductName = (TextView) view.findViewById(R.id.id);
+            mQuantity = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mQuantity.getText() + "'";
         }
     }
 }

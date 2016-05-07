@@ -2,6 +2,8 @@ package com.mpro.heroes.mlsalesapp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,10 @@ import com.mpro.heroes.mlsalesapp.R;
 import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent;
 import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent.DummyItem;
 import com.mpro.heroes.mlsalesapp.activity.helper.SimpleItemTouchHelperCallback;
+import com.mpro.heroes.mlsalesapp.model.CatalogItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -29,6 +35,8 @@ public class ProductFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private MyProductRecyclerViewAdapter adapter;
+    private List<CatalogItem> catalogItems = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,9 +68,9 @@ public class ProductFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
-        MyProductRecyclerViewAdapter adapter = new MyProductRecyclerViewAdapter(DummyContent.ITEMS, mListener);
+        adapter = new MyProductRecyclerViewAdapter(getItems(), mListener);
 
-        RecyclerView recyclerView = recyclerView = (RecyclerView) view;
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
         // Set the adapter
         if (view != null) {
             Context context = view.getContext();
@@ -79,7 +87,48 @@ public class ProductFragment extends Fragment {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
 
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showProductFinderDialog();
+                }
+            });
+        }
+
         return view;
+    }
+
+    private void showProductFinderDialog(){
+        ProductFinderDialog.ProductFinderDialogListener listener = new ProductFinderDialog.ProductFinderDialogListener() {
+
+            @Override
+            public void onDialogPositiveClick(DialogFragment dialog) {
+            }
+
+            @Override
+            public void onDialogNegativeClick(DialogFragment dialog) {
+                dialog.getDialog().cancel();
+            }
+        };
+        DialogFragment newFragment = ProductFinderDialog.newInstance(listener);
+        newFragment.show(getFragmentManager(), "dialog");
+    }
+
+    private List<CatalogItem> getItems() {
+
+        for(int i = 1; i <= 30; i++){
+            CatalogItem catalogItem = new CatalogItem();
+            catalogItem.setProductName("Product Name" + i);
+            catalogItem.setQuantity(i);
+            catalogItem.setSmallDescription("small description" + i);
+
+            catalogItems.add(catalogItem);
+
+        }
+        return catalogItems;
     }
 
 

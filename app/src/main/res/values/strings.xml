@@ -31,4 +31,5 @@
     <string name="current_points_hint">Puntos actuales</string>
     <string name="title_activity_points_calculator">PointsCalculator</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="product_name_or_number">Nombre de producto</string>
 </resources>

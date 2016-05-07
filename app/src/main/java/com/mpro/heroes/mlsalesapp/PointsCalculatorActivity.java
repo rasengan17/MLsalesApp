@@ -2,7 +2,6 @@ package com.mpro.heroes.mlsalesapp;
 
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +24,8 @@ import android.widget.TextView;
 import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
 import com.mpro.heroes.mlsalesapp.activity.MyProductRecyclerViewAdapter;
 import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorInitialPointsDialog;
+import com.mpro.heroes.mlsalesapp.activity.ProductDetailDialog;
+import com.mpro.heroes.mlsalesapp.activity.ProductFinderDialog;
 import com.mpro.heroes.mlsalesapp.activity.ProductFragment;
 import com.mpro.heroes.mlsalesapp.config.AppConstants;
 import com.mpro.heroes.mlsalesapp.services.CatalogService;
@@ -67,21 +68,9 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
             tabLayout.setupWithViewPager(mViewPager);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
-        }
-
         getCatalogs();
 
-        showDialog();
+        showStartingPointsDialog();
 
     }
 
@@ -126,7 +115,7 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
         mViewPager.setAdapter(adapter);
     }
 
-    private void showDialog() {
+    private void showStartingPointsDialog() {
         PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener listener = new PointsCalculatorInitialPointsDialog.PointsCalculatorInitialPointsDialogListener() {
             EditText currentPointsEditText;
 
@@ -145,6 +134,23 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
             }
         };
         DialogFragment newFragment = PointsCalculatorInitialPointsDialog.newInstance(listener);
+        newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
+    private void showProductDetailDialog(){
+        ProductDetailDialog.ProductDetailDialogListener listener = new ProductDetailDialog.ProductDetailDialogListener() {
+
+            @Override
+            public void onDialogPositiveClick(DialogFragment dialog) {
+
+            }
+
+            @Override
+            public void onDialogNegativeClick(DialogFragment dialog) {
+                dialog.getDialog().cancel();
+            }
+        };
+        DialogFragment newFragment = ProductDetailDialog.newInstance(listener);
         newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
@@ -172,11 +178,11 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
 
     @Override
     public void onListFragmentInteraction(MyProductRecyclerViewAdapter.ViewHolder holder) {
-        System.out.println(holder.mItem.content);
-        System.out.println(holder.mItem.details);
-        System.out.println(holder.mItem.id);
+        System.out.println(holder.mItem.getProductName());
+        System.out.println(holder.mItem.getQuantity());
+        System.out.println(holder.mItem.getSmallDescription());
 
-        holder.mIdView.setText("hola");
+        showProductDetailDialog();
 
 
     }
