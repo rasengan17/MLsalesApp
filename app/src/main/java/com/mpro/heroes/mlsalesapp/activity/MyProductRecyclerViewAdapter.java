@@ -40,7 +40,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.catalogItem = mValues.get(position);
         holder.mProductName.setText(mValues.get(position).getProductName());
         holder.mQuantity.setText(Integer.toString(mValues.get(position).getQuantity()));
 
@@ -86,7 +86,7 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
         public final View mView;
         public final TextView mProductName;
         public final TextView mQuantity;
-        public CatalogItem mItem;
+        public CatalogItem catalogItem;
         public int mIdItem;
 
         public ViewHolder(View view) {

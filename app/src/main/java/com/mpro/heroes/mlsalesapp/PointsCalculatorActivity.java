@@ -1,8 +1,8 @@
 package com.mpro.heroes.mlsalesapp;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -25,9 +25,9 @@ import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
 import com.mpro.heroes.mlsalesapp.activity.MyProductRecyclerViewAdapter;
 import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorInitialPointsDialog;
 import com.mpro.heroes.mlsalesapp.activity.ProductDetailDialog;
-import com.mpro.heroes.mlsalesapp.activity.ProductFinderDialog;
 import com.mpro.heroes.mlsalesapp.activity.ProductFragment;
 import com.mpro.heroes.mlsalesapp.config.AppConstants;
+import com.mpro.heroes.mlsalesapp.model.CatalogItem;
 import com.mpro.heroes.mlsalesapp.services.CatalogService;
 import com.mpro.heroes.mlsalesapp.services.response.CatalogResponse;
 import com.mpro.heroes.mlsalesapp.utils.PreferenceManager;
@@ -45,10 +45,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PointsCalculatorActivity extends AppCompatActivity implements ProductFragment.OnListFragmentInteractionListener {
 
+    private static final int PRODUCT_FRAGMENT = 1;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +110,11 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
     }
 
     private void setupViewPager() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ProductFragment(), "ONE");
-        adapter.addFragment(new ExampleFragment(), "TWO");
-        adapter.addFragment(new ExampleFragment(), "THREE");
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        //TODO: change fragment name to static constant 0, 1, 2
+        adapter.addFragment(new ProductFragment(), PRODUCT_FRAGMENT, "ONE");
+        adapter.addFragment(new ExampleFragment(), 2, "TWO");
+        adapter.addFragment(new ExampleFragment(), 3, "THREE");
         mViewPager.setAdapter(adapter);
     }
 
@@ -137,12 +140,12 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
         newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
-    private void showProductDetailDialog(){
+    private void showProductDetailDialog(CatalogItem catalogItem) {
         ProductDetailDialog.ProductDetailDialogListener listener = new ProductDetailDialog.ProductDetailDialogListener() {
 
             @Override
-            public void onDialogPositiveClick(DialogFragment dialog) {
-
+            public void onDialogPositiveClick(CatalogItem catalogItem) {
+                updateItemInformation(catalogItem);
             }
 
             @Override
@@ -150,8 +153,13 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
                 dialog.getDialog().cancel();
             }
         };
-        DialogFragment newFragment = ProductDetailDialog.newInstance(listener);
+        DialogFragment newFragment = ProductDetailDialog.newInstance(listener, catalogItem);
         newFragment.show(getSupportFragmentManager(), "dialog");
+    }
+
+    private void updateItemInformation(CatalogItem catalogItem) {
+        ProductFragment productFragment = adapter.getFragmentById(PRODUCT_FRAGMENT);
+        productFragment.updateItem(catalogItem);
     }
 
     @Override
@@ -178,11 +186,11 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
 
     @Override
     public void onListFragmentInteraction(MyProductRecyclerViewAdapter.ViewHolder holder) {
-        System.out.println(holder.mItem.getProductName());
-        System.out.println(holder.mItem.getQuantity());
-        System.out.println(holder.mItem.getSmallDescription());
+        System.out.println(holder.catalogItem.getProductName());
+        System.out.println(holder.catalogItem.getQuantity());
+        System.out.println(holder.catalogItem.getSmallDescription());
 
-        showProductDetailDialog();
+        showProductDetailDialog(holder.catalogItem);
 
 
     }
@@ -229,9 +237,13 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        private final FragmentManager manager;
+        private List<String> mFragmentNameList = new ArrayList<>();
+        private List<Integer> mFragmentIdList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
+            this.manager = manager;
         }
 
         @Override
@@ -244,7 +256,8 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title) {
+        public void addFragment(Fragment fragment, int id, String title) {
+            mFragmentIdList.add(id);
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -254,5 +267,24 @@ public class PointsCalculatorActivity extends AppCompatActivity implements Produ
             return mFragmentTitleList.get(position);
         }
 
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            final long itemId = getItemId(position);
+            String name = makeFragmentName(container.getId(), itemId);
+            Fragment fragment = manager.findFragmentByTag(name);
+            if (fragment == null) {
+                mFragmentNameList.add(name);
+            }
+            return super.instantiateItem(container, position);
+        }
+
+        private String makeFragmentName(int viewId, long id) {
+            return "android:switcher:" + viewId + ":" + id;
+        }
+
+        public ProductFragment getFragmentById(Integer fragmentId) {
+            ProductFragment productFragment = (ProductFragment) getSupportFragmentManager().findFragmentByTag(mFragmentNameList.get(mFragmentIdList.indexOf(fragmentId)));
+            return productFragment;
+        }
     }
 }

@@ -8,6 +8,24 @@ public class CatalogItem {
     private int quantity;
     private String smallDescription;
     private String[] tags;
+    private int productId;
+    private int ListId;
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getListId() {
+        return ListId;
+    }
+
+    public void setListId(int id) {
+        this.ListId = id;
+    }
 
     public String getProductName() {
         return productName;

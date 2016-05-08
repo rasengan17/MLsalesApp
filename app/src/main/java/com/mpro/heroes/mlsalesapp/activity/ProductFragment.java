@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mpro.heroes.mlsalesapp.R;
-import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent;
-import com.mpro.heroes.mlsalesapp.activity.dummy.DummyContent.DummyItem;
 import com.mpro.heroes.mlsalesapp.activity.helper.SimpleItemTouchHelperCallback;
 import com.mpro.heroes.mlsalesapp.model.CatalogItem;
 
@@ -36,7 +34,7 @@ public class ProductFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private MyProductRecyclerViewAdapter adapter;
-    private List<CatalogItem> catalogItems = new ArrayList<>();
+    private List<CatalogItem> catalogItemList = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -117,18 +115,39 @@ public class ProductFragment extends Fragment {
         newFragment.show(getFragmentManager(), "dialog");
     }
 
+    public void addItem(CatalogItem catalogItem){
+
+    }
+
+
+    public void updateItem(CatalogItem catalogItem) {
+        updateItemFromCatalogItemListWityId(catalogItem.getListId(), catalogItem);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void updateItemFromCatalogItemListWityId(int listId, CatalogItem catalogItem) {
+        List<CatalogItem> catalogItemListTemp = new ArrayList<>(catalogItemList);
+
+        for (CatalogItem catalogItemTemp : catalogItemListTemp) {
+            if (catalogItemTemp.getListId() == listId) {
+                catalogItemTemp = catalogItem;
+            }
+        }
+    }
+
     private List<CatalogItem> getItems() {
 
         for(int i = 1; i <= 30; i++){
             CatalogItem catalogItem = new CatalogItem();
+            catalogItem.setListId(i);
             catalogItem.setProductName("Product Name" + i);
             catalogItem.setQuantity(i);
-            catalogItem.setSmallDescription("small description" + i);
+            catalogItem.setSmallDescription("small description small description small description small description small description small description small description small description" + i);
 
-            catalogItems.add(catalogItem);
+            catalogItemList.add(catalogItem);
 
         }
-        return catalogItems;
+        return catalogItemList;
     }
 
 
