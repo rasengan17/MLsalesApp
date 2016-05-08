@@ -1,4 +1,4 @@
-package adapter;
+package com.mpro.heroes.mlsalesapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import com.mpro.heroes.mlsalesapp.R;
 import java.util.Collections;
 import java.util.List;
 
-import model.NavDrawerItem;
+import com.mpro.heroes.mlsalesapp.model.NavDrawerItem;
 
 /**
  * Created by cmacias on 3/12/16.

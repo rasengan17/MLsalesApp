@@ -1,8 +1,7 @@
 package com.mpro.heroes.mlsalesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import activity.ExampleFragment;
-import activity.FragmentDrawer;
-import activity.HomeFragment;
+import com.mpro.heroes.mlsalesapp.activity.ExampleFragment;
+import com.mpro.heroes.mlsalesapp.activity.FragmentDrawer;
+import com.mpro.heroes.mlsalesapp.activity.HomeFragment;
+import com.mpro.heroes.mlsalesapp.activity.PointsCalculatorFragment;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
     private Toolbar mToolbar;
@@ -97,24 +97,23 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     }*/
 
     private void displayView(int position) {
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                fragment = new HomeFragment();
-                title = getString(R.string.title_home);
+                showFragment(new HomeFragment(), getString(R.string.title_home));
                 break;
             case 1:
-                fragment = new ExampleFragment();
-                title = getString(R.string.title_example);
+                showFragment(new ExampleFragment(), getString(R.string.title_example));
                 break;
             case 2:
-
+                Intent intent = new Intent(this, PointsCalculatorActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
         }
+    }
 
+    private void showFragment(Fragment fragment, String title){
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -125,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             getSupportActionBar().setTitle(title);
         }
     }
+
     @Override
     public void onDrawerItemSelected(View view, int position) {
         displayView(position);

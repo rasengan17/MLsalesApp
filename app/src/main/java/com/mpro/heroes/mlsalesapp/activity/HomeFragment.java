@@ -1,4 +1,4 @@
-package activity;
+package com.mpro.heroes.mlsalesapp.activity;
 
 
 import android.app.Activity;
@@ -13,13 +13,11 @@ import com.mpro.heroes.mlsalesapp.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ExampleFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
-
-    public ExampleFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,17 +28,14 @@ public class ExampleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_example, container, false);
 
 
         // Inflate the layout for this fragment
-        return rootView;
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
     }
-
-
 }

@@ -1,4 +1,4 @@
-package activity;
+package com.mpro.heroes.mlsalesapp.activity;
 
 
 import android.os.Bundle;
@@ -19,8 +19,8 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.NavigationDrawerAdapter;
-import model.NavDrawerItem;
+import com.mpro.heroes.mlsalesapp.adapter.NavigationDrawerAdapter;
+import com.mpro.heroes.mlsalesapp.model.NavDrawerItem;
 
 
 public class FragmentDrawer extends android.support.v4.app.Fragment {

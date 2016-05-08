@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_example">Example</string>
+    <string name="title_points_calculator">Calculadora De Puntos</string>
+    <string name="current_points_dialog_message">Ingrese el total de puntos hasta ahora</string>
+    <string name="cancel">Cancelar</string>
+    <string name="current_points_hint">Puntos actuales</string>
 </resources>
